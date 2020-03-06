@@ -18,6 +18,13 @@ defmodule PhoenixComposable.Cars do
     |> Repo.all
   end
 
+  def list_cars_with_color_and_transmission(car_color, transmission_type) do
+    Car
+    |> Car.with_color(car_color)
+    |> Car.with_transmission(transmission_type)
+    |> Repo.all
+  end
+
   def list_cars do
     Repo.all(Car)
   end

@@ -22,13 +22,13 @@ defmodule PhoenixComposable.Cars.Car do
     |> validate_required([:color, :vin_number, :specification_id])
   end
 
-  def with_color(color) do
-    Car
+  def with_color(query \\ Car, color) do
+    query
     |> where([c], c.color == ^color)
   end
 
-  def with_transmission(type) do
-    Car
+  def with_transmission(query \\ Car, type) do
+    query
     |> join(:inner, [c], s in assoc(c, :specification))
     |> join(:inner, [c, s], t in assoc(s, :transmission))
     |> where([c, s, t], t.type == ^type)

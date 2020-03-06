@@ -20,5 +20,13 @@ defmodule PhoenixComposable.CarsTest do
 
       assert length(Cars.list_cars_with_transmission("automatic")) == 2
     end
+
+    test "list_cars_with_color_and_transmission/2" do
+      complete_car_fixture()
+      complete_car_fixture(%{color: "red"})
+      complete_car_fixture(%{}, %{}, %{type: "manual"})
+
+      assert length(Cars.list_cars_with_color_and_transmission("blue", "automatic")) == 1
+    end
   end
 end
