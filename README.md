@@ -17,3 +17,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+# Gens
+`mix phx.gen.json Cars Car cars color:string vin_number:string`
+`mix phx.gen.context Cars Engine engines name:string cylinders:integer horse_power:integer`
+`mix phx.gen.context Cars Transmission transmissions type:string`
+`mix phx.gen.context Cars Specification specifications engine_id:references:engines transmission_id:references:transmissions`
