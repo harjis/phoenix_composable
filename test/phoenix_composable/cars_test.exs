@@ -132,7 +132,6 @@ defmodule PhoenixComposable.CarsTest do
 
     @valid_attrs %{}
     @update_attrs %{}
-    @invalid_attrs %{}
 
     def specification_fixture(attrs \\ %{}) do
       {:ok, specification} =
@@ -157,19 +156,9 @@ defmodule PhoenixComposable.CarsTest do
       assert {:ok, %Specification{} = specification} = Cars.create_specification(@valid_attrs)
     end
 
-    test "create_specification/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Cars.create_specification(@invalid_attrs)
-    end
-
     test "update_specification/2 with valid data updates the specification" do
       specification = specification_fixture()
       assert {:ok, %Specification{} = specification} = Cars.update_specification(specification, @update_attrs)
-    end
-
-    test "update_specification/2 with invalid data returns error changeset" do
-      specification = specification_fixture()
-      assert {:error, %Ecto.Changeset{}} = Cars.update_specification(specification, @invalid_attrs)
-      assert specification == Cars.get_specification!(specification.id)
     end
 
     test "delete_specification/1 deletes the specification" do

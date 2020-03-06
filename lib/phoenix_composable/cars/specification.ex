@@ -2,9 +2,11 @@ defmodule PhoenixComposable.Cars.Specification do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias PhoenixComposable.Cars.{Transmission, Engine}
+
   schema "specifications" do
-    field :engine_id, :id
-    field :transmission_id, :id
+    belongs_to :engine, Engine
+    belongs_to :transmission, Transmission
 
     timestamps()
   end
