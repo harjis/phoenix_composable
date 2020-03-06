@@ -18,12 +18,19 @@ defmodule PhoenixComposable.Cars.Car do
   @doc false
   def changeset(car, attrs) do
     car
-    |> cast(attrs, [:color, :vin_number])
-    |> validate_required([:color, :vin_number])
+    |> cast(attrs, [:color, :vin_number, :specification_id])
+    |> validate_required([:color, :vin_number, :specification_id])
   end
 
   def with_color(color) do
     Car
     |> where([c], c.color == ^color)
+  end
+
+  def with_transmission(type) do
+    Car
+    |> join(:inner, [c], s in assoc(c, :specification))
+    |> join(:inner, [c, s], t in assoc(s, :transmission))
+    |> where([c, s, t], t.type == ^type)
   end
 end

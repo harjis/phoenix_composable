@@ -1,4 +1,4 @@
-defmodule PhoenixComposable.Cars.Transmissions do
+defmodule PhoenixComposable.Cars.Transmission do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -9,8 +9,8 @@ defmodule PhoenixComposable.Cars.Transmissions do
   end
 
   @doc false
-  def changeset(transmissions, attrs) do
-    transmissions
+  def changeset(transmission, attrs) do
+    transmission
     |> cast(attrs, [:type])
     |> validate_required([:type])
   end

@@ -3,8 +3,8 @@ defmodule PhoenixComposable.Repo.Migrations.CreateSpecifications do
 
   def change do
     create table(:specifications) do
-      add :engine_id, references(:engines, on_delete: :nothing)
-      add :transmission_id, references(:transmissions, on_delete: :nothing)
+      add :engine_id, references(:engines, on_delete: :nothing), null: false
+      add :transmission_id, references(:transmissions, on_delete: :nothing), null: false
 
       timestamps()
     end

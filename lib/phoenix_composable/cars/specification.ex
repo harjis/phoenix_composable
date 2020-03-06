@@ -14,7 +14,7 @@ defmodule PhoenixComposable.Cars.Specification do
   @doc false
   def changeset(specification, attrs) do
     specification
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:engine_id, :transmission_id])
+    |> validate_required([:engine_id, :transmission_id])
   end
 end

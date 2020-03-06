@@ -6,10 +6,15 @@ defmodule PhoenixComposable.Cars do
   import Ecto.Query, warn: false
   alias PhoenixComposable.Repo
 
-  alias PhoenixComposable.Cars.Car
+  alias PhoenixComposable.Cars.{Car, Specification, Transmission, Engine}
 
-  def list_cars_by_color(color) do
+  def list_cars_with_color(color) do
     Car.with_color(color)
+    |> Repo.all
+  end
+
+  def list_cars_with_transmission(type) do
+    Car.with_transmission(type)
     |> Repo.all
   end
 
@@ -35,4 +40,21 @@ defmodule PhoenixComposable.Cars do
     Repo.delete(car)
   end
 
+  def create_engine(attrs \\ %{}) do
+    %Engine{}
+    |> Engine.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_transmission(attrs \\ %{}) do
+    %Transmission{}
+    |> Transmission.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_specification(attrs \\ %{}) do
+    %Specification{}
+    |> Specification.changeset(attrs)
+    |> Repo.insert()
+  end
 end
