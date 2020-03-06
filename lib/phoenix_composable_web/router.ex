@@ -15,9 +15,6 @@ defmodule PhoenixComposableWeb.Router do
 
   scope "/", PhoenixComposableWeb do
     pipe_through :api
-
-    get "/", PageController, :index
-
     resources "/cars", CarController
   end
 

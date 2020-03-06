@@ -1,7 +1,9 @@
 defmodule PhoenixComposable.Cars.Car do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
+  alias PhoenixComposable.Cars.Car
   alias PhoenixComposable.Cars.Specification
 
   schema "cars" do
@@ -18,5 +20,10 @@ defmodule PhoenixComposable.Cars.Car do
     car
     |> cast(attrs, [:color, :vin_number])
     |> validate_required([:color, :vin_number])
+  end
+
+  def with_color(color) do
+    Car
+    |> where([c], c.color == ^color)
   end
 end
