@@ -33,12 +33,14 @@ defmodule PhoenixComposable.CarTest do
       complete_car_fixture()
       complete_car_fixture(%{color: "red"}, %{}, %{type: "manual"})
       complete_car_fixture(%{color: "red"}, %{}, %{type: "manual"})
+      expected = %{"automatic" => 1, "manual" => 2}
 
       cars = Car
              |> Car.group_by_transmission_type
              |> Car.count_rows
              |> Repo.all
-      IO.inspect(cars)
+      map = Enum.reduce(cars, %{}, fn car, acc -> Map.put(acc, car.t_type, car.count) end)
+      assert expected == map
     end
 
     test "returns paginated cars" do
