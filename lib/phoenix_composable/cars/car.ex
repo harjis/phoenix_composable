@@ -29,24 +29,24 @@ defmodule PhoenixComposable.Cars.Car do
 
   def with_transmission(query \\ Car, type) do
     query
-    |> join_specifications()
-    |> join(:inner, [c, specifications: s], t in assoc(s, :transmission), as: :transmissions)
+    |> join_specification()
+    |> join(:inner, [c, specification: s], t in assoc(s, :transmission), as: :transmissions)
     |> where([c, transmissions: t], t.type == ^type)
   end
 
   def with_engine_horse_power(query \\ Car, horse_power) do
     query
-    |> join_specifications()
-    |> join(:inner, [c, specifications: s], e in assoc(s, :engine), as: :engines)
+    |> join_specification()
+    |> join(:inner, [c, specification: s], e in assoc(s, :engine), as: :engines)
     |> where([c, engines: e], e.horse_power >= ^horse_power)
   end
 
-  defp join_specifications(query) do
-    if has_named_binding?(query, :specifications) do
+  defp join_specification(query) do
+    if has_named_binding?(query, :specification) do
       query
     else
       query
-      |> join(:inner, [c], s in assoc(c, :specification), as: :specifications)
+      |> join(:inner, [c], s in assoc(c, :specification), as: :specification)
     end
   end
 end
