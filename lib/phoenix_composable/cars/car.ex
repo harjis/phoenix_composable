@@ -42,7 +42,14 @@ defmodule PhoenixComposable.Cars.Car do
 
   def group_by_transmission_type(query \\ Car) do
     query
+    |> join_transmission
     |> group_by([c, transmission: t], t.type)
+    |> select([c, transmission: t], %{t_type: t.type})
+  end
+
+  def count_rows(query \\ Car) do
+    query
+    |> select_merge(%{count: count()})
   end
 
   def select_car_ids_grouped_by_transmission_type(query \\ Car) do
@@ -52,7 +59,7 @@ defmodule PhoenixComposable.Cars.Car do
     |> select([c, transmission: t], %{t_type: t.type, ids: fragment("array_agg(?) as car_ids", c.id)})
   end
 
-  def join_transmission(query \\ Car) do
+  defp join_transmission(query \\ Car) do
     if has_named_binding?(query, :transmission) do
       query
     else

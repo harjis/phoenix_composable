@@ -29,6 +29,18 @@ defmodule PhoenixComposable.CarTest do
       Enum.map(cars, fn car -> IO.inspect({car.t_type, car.ids}, charlists: :as_lists)  end)
     end
 
+    test "group_by_transmission_type/0" do
+      complete_car_fixture()
+      complete_car_fixture(%{color: "red"}, %{}, %{type: "manual"})
+      complete_car_fixture(%{color: "red"}, %{}, %{type: "manual"})
+
+      cars = Car
+             |> Car.group_by_transmission_type
+             |> Car.count_rows
+             |> Repo.all
+      IO.inspect(cars)
+    end
+
     test "returns paginated cars" do
       complete_car_fixture()
       complete_car_fixture(%{color: "red"})
