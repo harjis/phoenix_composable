@@ -56,7 +56,7 @@ defmodule PhoenixComposable.Cars.Car do
     query
     |> join_transmission
     |> group_by_transmission_type
-    |> select([c, transmission: t], %{t_type: t.type, ids: fragment("array_agg(?) as car_ids", c.id)})
+    |> select_merge([c, transmission: t], %{ids: fragment("array_agg(?) as car_ids", c.id)})
   end
 
   defp join_transmission(query \\ Car) do

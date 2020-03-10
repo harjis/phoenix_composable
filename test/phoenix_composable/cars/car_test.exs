@@ -19,14 +19,17 @@ defmodule PhoenixComposable.CarTest do
     end
 
     test "select_car_ids_grouped_by_transmission_type/0" do
-      complete_car_fixture()
-      complete_car_fixture(%{color: "red"}, %{}, %{type: "manual"})
-      complete_car_fixture(%{color: "red"}, %{}, %{type: "manual"})
+      car = complete_car_fixture()
+      car2 = complete_car_fixture(%{color: "red"}, %{}, %{type: "manual"})
+      car3 = complete_car_fixture(%{color: "red"}, %{}, %{type: "manual"})
+      expected = %{"manual" => [car2.id, car3.id], "automatic" => [car.id]}
 
       cars = Car
              |> Car.select_car_ids_grouped_by_transmission_type
              |> Repo.all
-      Enum.map(cars, fn car -> IO.inspect({car.t_type, car.ids}, charlists: :as_lists)  end)
+      map = Enum.reduce(cars, %{}, fn car, acc -> Map.put(acc, car.t_type, car.ids) end)
+
+      assert expected == map
     end
 
     test "group_by_transmission_type/0" do
