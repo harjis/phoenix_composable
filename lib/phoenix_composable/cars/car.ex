@@ -29,9 +29,8 @@ defmodule PhoenixComposable.Cars.Car do
 
   def with_transmission(query \\ Car, type) do
     query
-    |> join_specification()
-    |> join(:inner, [c, specification: s], t in assoc(s, :transmission), as: :transmissions)
-    |> where([c, transmissions: t], t.type == ^type)
+    |> join_transmission
+    |> where([c, transmission: t], t.type == ^type)
   end
 
   def with_engine_horse_power(query \\ Car, horse_power) do
@@ -39,6 +38,28 @@ defmodule PhoenixComposable.Cars.Car do
     |> join_specification()
     |> join(:inner, [c, specification: s], e in assoc(s, :engine), as: :engines)
     |> where([c, engines: e], e.horse_power >= ^horse_power)
+  end
+
+  def group_by_transmission_type(query \\ Car) do
+    query
+    |> group_by([c, transmission: t], t.type)
+  end
+
+  def select_car_ids_grouped_by_transmission_type(query \\ Car) do
+    query
+    |> join_transmission
+    |> group_by_transmission_type
+    |> select([c, transmission: t], %{t_type: t.type, ids: fragment("array_agg(?) as car_ids", c.id)})
+  end
+
+  def join_transmission(query \\ Car) do
+    if has_named_binding?(query, :transmission) do
+      query
+    else
+      query
+      |> join_specification()
+      |> join(:inner, [c, specification: s], t in assoc(s, :transmission), as: :transmission)
+    end
   end
 
   defp join_specification(query) do
