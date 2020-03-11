@@ -3,6 +3,7 @@ defmodule PhoenixComposableWeb.CarController do
 
   alias PhoenixComposable.Cars
   alias PhoenixComposable.Cars.Car
+  alias PhoenixComposable.Cars.Specification
 
   action_fallback PhoenixComposableWeb.FallbackController
 
@@ -47,7 +48,7 @@ defmodule PhoenixComposableWeb.CarController do
     render(conn, "index.json", cars: cars)
   end
 
-  @spec has_blue(list(number)) :: boolean()
+  @spec has_blue(list(%Specification{})) :: boolean()
   def has_blue(cars) do
     car = cars
     |> Enum.find(&(&1.color == "blue"))
