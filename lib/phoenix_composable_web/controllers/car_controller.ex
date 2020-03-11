@@ -40,4 +40,17 @@ defmodule PhoenixComposableWeb.CarController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def list_cars_with_color(conn, _params) do
+    cars = Cars.list_cars_with_color("red")
+    blu = has_blue(cars)
+    render(conn, "index.json", cars: cars)
+  end
+
+  @spec has_blue(list(number)) :: boolean()
+  def has_blue(cars) do
+    car = cars
+    |> Enum.find(&(&1.color == "blue"))
+    car != nil
+  end
 end

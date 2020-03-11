@@ -6,6 +6,16 @@ defmodule PhoenixComposable.Cars.Car do
   alias PhoenixComposable.Cars.Car
   alias PhoenixComposable.Cars.Specification
 
+  @type t :: %__MODULE__{
+               color: String.t(),
+               id: integer(),
+               inserted_at: NaiveDateTime.t(),
+               specification: Ecto.Schema.belongs_to(Specification),
+               specification_id: integer(),
+               updated_at: NaiveDateTime.t(),
+               vin_number: String.t()
+             }
+
   schema "cars" do
     field :color, :string
     field :vin_number, :string
@@ -22,6 +32,7 @@ defmodule PhoenixComposable.Cars.Car do
     |> validate_required([:color, :vin_number, :specification_id])
   end
 
+  @spec with_color(term(), String.t()) :: term()
   def with_color(query \\ Car, color) do
     query
     |> where([c], c.color == ^color)

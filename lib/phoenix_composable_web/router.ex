@@ -15,11 +15,7 @@ defmodule PhoenixComposableWeb.Router do
 
   scope "/", PhoenixComposableWeb do
     pipe_through :api
+    get "/cars/with_color", CarController, :list_cars_with_color
     resources "/cars", CarController
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", PhoenixComposableWeb do
-  #   pipe_through :api
-  # end
 end

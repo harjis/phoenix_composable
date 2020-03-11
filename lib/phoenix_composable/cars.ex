@@ -8,6 +8,7 @@ defmodule PhoenixComposable.Cars do
 
   alias PhoenixComposable.Cars.{Car, Specification, Transmission, Engine}
 
+  @spec list_cars_with_color(String.t()) :: list(Car.t())
   def list_cars_with_color(color) do
     Car.with_color(color)
     |> Repo.all
