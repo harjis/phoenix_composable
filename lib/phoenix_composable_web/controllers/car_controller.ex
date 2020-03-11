@@ -44,11 +44,13 @@ defmodule PhoenixComposableWeb.CarController do
 
   def list_cars_with_color(conn, _params) do
     cars = Cars.list_cars_with_color("red")
-    blu = has_blue(cars)
+    blu = has_blue(Cars.list_cars())
+    blu = has_blue(Cars.list_specifications())
+    blu = has_blue([1])
     render(conn, "index.json", cars: cars)
   end
 
-  @spec has_blue(list(%Specification{})) :: boolean()
+  @spec has_blue(list(Car.t)) :: boolean()
   def has_blue(cars) do
     car = cars
     |> Enum.find(&(&1.color == "blue"))

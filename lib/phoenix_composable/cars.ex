@@ -34,8 +34,14 @@ defmodule PhoenixComposable.Cars do
     |> Repo.all
   end
 
+  @spec list_cars() :: list(Car.t)
   def list_cars do
     Repo.all(Car)
+  end
+
+  @spec list_specifications() :: list(Specification.t)
+  def list_specifications do
+    Repo.all(Specification)
   end
 
   def get_car!(id), do: Repo.get!(Car, id)
