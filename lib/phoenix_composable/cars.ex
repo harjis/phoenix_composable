@@ -16,6 +16,7 @@ defmodule PhoenixComposable.Cars do
 
   def list_cars_with_transmission(type) do
     Car.with_transmission(type)
+    |> Car.preload_transmission
     |> Repo.all
   end
 

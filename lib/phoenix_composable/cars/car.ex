@@ -7,14 +7,14 @@ defmodule PhoenixComposable.Cars.Car do
   alias PhoenixComposable.Cars.Specification
 
   @type t :: %__MODULE__{
-               color: String.t(),
-               id: integer(),
-               inserted_at: NaiveDateTime.t(),
-               specification: Ecto.Schema.belongs_to(Specification),
-               specification_id: integer(),
-               updated_at: NaiveDateTime.t(),
-               vin_number: String.t()
-             }
+          color: String.t(),
+          id: integer(),
+          inserted_at: NaiveDateTime.t(),
+          specification: Ecto.Schema.belongs_to(Specification),
+          specification_id: integer(),
+          updated_at: NaiveDateTime.t(),
+          vin_number: String.t()
+        }
 
   schema "cars" do
     field :color, :string
@@ -68,6 +68,16 @@ defmodule PhoenixComposable.Cars.Car do
     |> join_transmission
     |> group_by_transmission_type
     |> select_merge([c, transmission: t], %{ids: fragment("array_agg(?) as car_ids", c.id)})
+  end
+
+  def preload_specification(query) do
+    query
+    |> preload([c, s], [:specification])
+  end
+
+  def preload_transmission(query) do
+    query
+    |> preload([c, s, t], specification: {s, transmission: t})
   end
 
   defp join_transmission(query \\ Car) do

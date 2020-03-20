@@ -2,6 +2,9 @@ defmodule PhoenixComposable.CarsTest do
   use PhoenixComposable.DataCase
 
   alias PhoenixComposable.Cars
+  alias PhoenixComposable.Cars.Car
+  alias PhoenixComposable.Cars.Specification
+  alias PhoenixComposable.Cars.Transmission
 
   import PhoenixComposable.Fixtures.Cars
 
@@ -18,7 +21,13 @@ defmodule PhoenixComposable.CarsTest do
       complete_car_fixture()
       complete_car_fixture(%{}, %{}, %{type: "manual"})
 
-      assert length(Cars.list_cars_with_transmission("automatic")) == 2
+      actual = Cars.list_cars_with_transmission("automatic")
+      assert length(actual) == 2
+
+      assert [
+               %Car{specification: %Specification{transmission: %Transmission{}}},
+               %Car{specification: %Specification{transmission: %Transmission{}}}
+             ] = actual
     end
 
     test "list_cars_with_color_and_transmission/2" do
@@ -34,7 +43,9 @@ defmodule PhoenixComposable.CarsTest do
       complete_car_fixture(%{color: "red"}, %{horse_power: 150})
       complete_car_fixture(%{}, %{horse_power: 200}, %{type: "manual"})
 
-      assert length(Cars.list_cars_with_color_and_transmission_and_horse_power("blue", "manual", 200)) == 1
+      assert length(
+               Cars.list_cars_with_color_and_transmission_and_horse_power("blue", "manual", 200)
+             ) == 1
     end
   end
 end
