@@ -72,7 +72,8 @@ defmodule PhoenixComposable.Cars.Car do
 
   def preload_specification(query) do
     query
-    |> preload([c, s], [:specification])
+    |> join_specification
+    |> preload([c, s], [specification: s])
   end
 
   def preload_transmission(query) do

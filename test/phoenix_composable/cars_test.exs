@@ -9,6 +9,13 @@ defmodule PhoenixComposable.CarsTest do
   import PhoenixComposable.Fixtures.Cars
 
   describe "cars" do
+    test "list_cars_with_spec_preload/0" do
+      complete_car_fixture()
+      complete_car_fixture()
+
+      assert length(Cars.list_cars_with_spec_preload()) == 2
+    end
+
     test "list_cars_with_color/1 returns all cars by color" do
       complete_car_fixture()
       complete_car_fixture()
